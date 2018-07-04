@@ -8,19 +8,66 @@ const Range = createSliderWithTooltip(Slider.Range);
 
 class DeliveryPriceSlider extends React.Component {
 
-  tipFormatter = (value) => {
-    return `${value}%`;
+  state = {
+    timeInterval: [1, 3],
+    price: 45
+  };
+
+  onSliderChange = (timeInterval) => {
+    this.setState({ timeInterval });
+    this.calculatePrice();
+  };
+
+  calculatePrice = () => {
+    const { timeInterval } = this.state;
+    const [startTime, endTime] = timeInterval;
+    let price = 15;
+
+    if (endTime - startTime === 3) {
+      price = 30;
+    }
+    else if (endTime - startTime === 2) {
+      price = 45;
+    }
+
+    console.log(startTime, endTime, price);
+
+    this.setState({ price });
+  };
+
+  tipFormatter = (time) => {
+    if (time < 0) {
+      return `${time + 12}am`;
+    }
+    else if (time === 0) {
+      return `${time + 12}pm`;
+    }
+    else {
+      return `${time}pm`;
+    }
   };
 
   render() {
+    const { price, timeInterval } = this.state;
+
     return (
-      <div>
-        <div className='price-slider-container'>
+      <div className='delivery-price'>
+        <div className='price-field'>
+          <span className='price-field__label'>Delivery price:</span>
+          <span className='price-field__value'>${price}</span>
+        </div>
+
+        <div className='time-slider-container'>
           <Range
-            min={0}
-            max={20}
-            defaultValue={[3, 10]}
+            min={-3}
+            max={5}
             tipFormatter={this.tipFormatter}
+            tipProps={{visible: true}}
+            allowCross={false}
+            pushable
+            value={timeInterval}
+            onChange={this.onSliderChange}
+            onAfterChange={this.onSliderChange}
           />
         </div>
       </div>
