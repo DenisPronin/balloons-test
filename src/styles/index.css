@@ -148,3 +148,9 @@ body, #root, .page-wrapper {
     width: 50%;
   }
 }
+
+.price-slider-container {
+  width: 90%;
+  margin: 40px auto 0;
+  max-width: 500px;
+}
