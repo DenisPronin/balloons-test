@@ -10,22 +10,21 @@ class AddressSearchBox extends React.Component {
   static propTypes = {
     address: PropTypes.string.isRequired,
     placeId: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired
+    errorMessage: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    handleError: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      address: '',
-      placeId: '',
-      errorMessage: '',
       isGeocoding: false,
     };
   }
 
   handleChange = (address) => {
     this.props.onChange(address);
-    this.setState({ errorMessage: '' });
+    this.props.handleError('');
   };
 
   handleSelect = (selected, placeId) => {
@@ -49,14 +48,12 @@ class AddressSearchBox extends React.Component {
 
   handleError = (status, clearSuggestions) => {
     console.log('Error from Google Maps API', status); // eslint-disable-line no-console
-    this.setState({ errorMessage: status }, () => {
-      clearSuggestions();
-    });
+    this.props.handleError(status);
+    clearSuggestions();
   };
 
   render() {
-    const { address } = this.props;
-    const { errorMessage } = this.state;
+    const { address, errorMessage } = this.props;
 
     return (
       <div>
@@ -118,7 +115,7 @@ class AddressSearchBox extends React.Component {
         </PlacesAutocomplete>
 
         {errorMessage.length > 0 && (
-          <div className="error-message">{this.state.errorMessage}</div>
+          <div className="error-message">{errorMessage}</div>
         )}
       </div>
     );

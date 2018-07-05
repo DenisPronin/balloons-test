@@ -6,10 +6,13 @@ class App extends React.Component {
 
   _basePrice = 15;
 
+  notDeliveryPlaces = ['ChIJQ2dALkKuEmsRhDvkyrz2Y0w'];
+
   constructor (props) {
     super(props);
     this.state = {
       address: '',
+      addressError: '',
       placeId: '',
       time: {min: -3, max: 5},
       price: this._basePrice,
@@ -26,7 +29,12 @@ class App extends React.Component {
   };
 
   handleChangeAddress = (address, placeId = '') => {
-    this.setState({address, placeId});
+    if (this.notDeliveryPlaces.includes(placeId)) {
+      this.handleAddressError('We do not deliver to this area');
+    }
+    else {
+      this.setState({address, placeId});
+    }
   };
 
   handleChangeTime = (time) => {
@@ -48,6 +56,10 @@ class App extends React.Component {
     this.setState({price});
   };
 
+  handleAddressError = (addressError) => {
+    this.setState({addressError});
+  };
+
   prevStep = () => {
     this.setState({formStep: this.state.formStep - 1});
   };
@@ -62,8 +74,10 @@ class App extends React.Component {
         {this.state.formStep === 1 && (
           <AddressSearchBox
             address={this.state.address}
+            errorMessage={this.state.addressError}
             placeId={this.state.placeId}
             onChange={this.handleChangeAddress}
+            handleError={this.handleAddressError}
           />
         )}
 
