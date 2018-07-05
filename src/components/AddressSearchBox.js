@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -6,6 +7,12 @@ import PlacesAutocomplete, {
 import classnames from 'classnames';
 
 class AddressSearchBox extends React.Component {
+  static propTypes = {
+    address: PropTypes.string.isRequired,
+    placeId: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -16,21 +23,19 @@ class AddressSearchBox extends React.Component {
     };
   }
 
-  handleChange = address => {
-    this.setState({
-      address,
-      errorMessage: '',
-    });
+  handleChange = (address) => {
+    this.props.onChange(address);
+    this.setState({ errorMessage: '' });
   };
 
   handleSelect = (selected, placeId) => {
-    this.setState({ isGeocoding: true, address: selected, placeId });
+    this.setState({ isGeocoding: true });
+    this.props.onChange(selected, placeId);
+
     geocodeByAddress(selected)
       .then(res => getLatLng(res[0]))
-      .then(({ lat, lng }) => {
-        this.setState({
-          isGeocoding: false,
-        });
+      .then(() => {
+        this.setState({ isGeocoding: false });
       })
       .catch(error => {
         this.setState({ isGeocoding: false });
@@ -39,9 +44,7 @@ class AddressSearchBox extends React.Component {
   };
 
   handleCloseClick = () => {
-    this.setState({
-      address: ''
-    });
+    this.props.onChange('');
   };
 
   handleError = (status, clearSuggestions) => {
@@ -52,7 +55,8 @@ class AddressSearchBox extends React.Component {
   };
 
   render() {
-    const { address, errorMessage } = this.state;
+    const { address } = this.props;
+    const { errorMessage } = this.state;
 
     return (
       <div>
@@ -75,7 +79,7 @@ class AddressSearchBox extends React.Component {
                         className: 'search-input',
                       })}
                     />
-                    {this.state.address.length > 0 && (
+                    {address.length > 0 && (
                       <button
                         className="clear-button"
                         onClick={this.handleCloseClick}

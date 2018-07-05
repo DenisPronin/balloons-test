@@ -1,15 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
 
 class DeliveryPriceSlider extends React.Component {
 
+  static propTypes = {
+    time: PropTypes.object.isRequired,
+    price: PropTypes.number.isRequired,
+    handleChangeTime: PropTypes.func.isRequired,
+    handleChangePrice: PropTypes.func.isRequired
+  };
+
   state = {
-    timeInterval: [-3, 5],
-    time: {min: -3, max: 5},
     min: -3,
-    max: 5,
-    price: null
+    max: 5
   };
 
   componentDidMount () {
@@ -28,14 +33,15 @@ class DeliveryPriceSlider extends React.Component {
       min = max - range;
     }
 
-    this.setState({time: { min, max }});
-    this.calculatePrice([time.min, time.max]);
+    this.props.handleChangeTime({ min, max });
+    this.calculatePrice({ min, max });
   };
 
-  calculatePrice = (timeInterval = null) => {
-    timeInterval = timeInterval || this.state.timeInterval;
+  calculatePrice = (time = null) => {
+    time = time || this.props.time;
 
-    const [startTime, endTime] = timeInterval;
+    const startTime = time.min;
+    const endTime = time.max;
     let price = 15;
 
     if (endTime - startTime === 3) {
@@ -45,7 +51,7 @@ class DeliveryPriceSlider extends React.Component {
       price = 45;
     }
 
-    this.setState({ price });
+    this.props.handleChangePrice(price);
   };
 
   tipFormatter = (time) => {
@@ -61,7 +67,8 @@ class DeliveryPriceSlider extends React.Component {
   };
 
   render() {
-    const { price, time, min, max } = this.state;
+    const { time, price } = this.props;
+    const { min, max } = this.state;
 
     return (
       <div className='delivery-price'>

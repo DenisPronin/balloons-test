@@ -12,10 +12,14 @@ body, #root, .page-wrapper {
   background-color: #fcfcfc;
 }
 
-.search-bar {
+.app {
   width: 90%;
   max-width: 500px;
-  margin: 40px auto 0;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+
+.search-bar {
 }
 
 .search-bar-container {
@@ -109,9 +113,7 @@ body, #root, .page-wrapper {
 }
 
 .delivery-price {
-  width: 90%;
-  margin: 40px auto 0;
-  max-width: 500px;
+  margin-top: 40px;
 }
 
 .time-slider-container {
