@@ -9,16 +9,22 @@ const Range = createSliderWithTooltip(Slider.Range);
 class DeliveryPriceSlider extends React.Component {
 
   state = {
-    timeInterval: [1, 3],
-    price: 45
+    timeInterval: [-3, 5],
+    price: null
   };
+
+  componentDidMount () {
+    this.calculatePrice();
+  }
 
   onSliderChange = (timeInterval) => {
     this.setState({ timeInterval });
     this.calculatePrice(timeInterval);
   };
 
-  calculatePrice = (timeInterval) => {
+  calculatePrice = (timeInterval = null) => {
+    timeInterval = timeInterval || this.state.timeInterval;
+
     const [startTime, endTime] = timeInterval;
     let price = 15;
 
