@@ -1,15 +1,14 @@
-import 'rc-slider/assets/index.css';
-import 'rc-tooltip/assets/bootstrap.css';
 import React from 'react';
-import Slider from 'rc-slider';
-
-const createSliderWithTooltip = Slider.createSliderWithTooltip;
-const Range = createSliderWithTooltip(Slider.Range);
+import InputRange from 'react-input-range';
+import 'react-input-range/lib/css/index.css';
 
 class DeliveryPriceSlider extends React.Component {
 
   state = {
     timeInterval: [-3, 5],
+    time: {min: -3, max: 5},
+    min: -3,
+    max: 5,
     price: null
   };
 
@@ -17,9 +16,20 @@ class DeliveryPriceSlider extends React.Component {
     this.calculatePrice();
   }
 
-  onSliderChange = (timeInterval) => {
-    this.setState({ timeInterval });
-    this.calculatePrice(timeInterval);
+  onChange = (time) => {
+    let {min, max} = time;
+    const range = max - min;
+    if (min < this.state.min) {
+      min = this.state.min;
+      max = min + range;
+    }
+    else if (max > this.state.max) {
+      max = this.state.max;
+      min = max - range;
+    }
+
+    this.setState({time: { min, max }});
+    this.calculatePrice([time.min, time.max]);
   };
 
   calculatePrice = (timeInterval = null) => {
@@ -51,12 +61,7 @@ class DeliveryPriceSlider extends React.Component {
   };
 
   render() {
-    const { price, timeInterval } = this.state;
-
-    const marks = {
-      '-3': '9am',
-      '5': '5pm'
-    };
+    const { price, time, min, max } = this.state;
 
     return (
       <div className='delivery-price'>
@@ -66,17 +71,15 @@ class DeliveryPriceSlider extends React.Component {
         </div>
 
         <div className='time-slider-container'>
-          <Range
-            min={-3}
-            max={5}
-            tipFormatter={this.tipFormatter}
-            tipProps={{visible: true}}
-            allowCross={false}
-            marks={marks}
-            value={timeInterval}
-            onChange={this.onSliderChange}
-            onAfterChange={this.onSliderChange}
+          <InputRange
+            minValue={min}
+            maxValue={max}
+            formatLabel={this.tipFormatter}
+            value={time}
+            onChange={this.onChange}
+            draggableTrack
           />
+
         </div>
       </div>
     );
