@@ -71,7 +71,7 @@ class AddressSearchBox extends React.Component {
                   <div className="search-input-container">
                     <input
                       {...getInputProps({
-                        placeholder: 'Search Places...',
+                        placeholder: 'Start typing your address',
                         className: 'search-input',
                       })}
                     />
