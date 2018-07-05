@@ -84,7 +84,7 @@ class AddressSearchBox extends React.Component {
                         className="clear-button"
                         onClick={this.handleCloseClick}
                       >
-                        x
+                        <i className='fa fa-times' />
                       </button>
                     )}
                   </div>
