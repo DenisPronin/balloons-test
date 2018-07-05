@@ -15,11 +15,10 @@ class DeliveryPriceSlider extends React.Component {
 
   onSliderChange = (timeInterval) => {
     this.setState({ timeInterval });
-    this.calculatePrice();
+    this.calculatePrice(timeInterval);
   };
 
-  calculatePrice = () => {
-    const { timeInterval } = this.state;
+  calculatePrice = (timeInterval) => {
     const [startTime, endTime] = timeInterval;
     let price = 15;
 
@@ -67,7 +66,6 @@ class DeliveryPriceSlider extends React.Component {
             tipFormatter={this.tipFormatter}
             tipProps={{visible: true}}
             allowCross={false}
-            pushable
             marks={marks}
             value={timeInterval}
             onChange={this.onSliderChange}
