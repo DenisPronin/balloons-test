@@ -48,6 +48,11 @@ class DeliveryPriceSlider extends React.Component {
   render() {
     const { price, timeInterval } = this.state;
 
+    const marks = {
+      '-3': '9am',
+      '5': '5pm'
+    };
+
     return (
       <div className='delivery-price'>
         <div className='price-field'>
@@ -63,6 +68,7 @@ class DeliveryPriceSlider extends React.Component {
             tipProps={{visible: true}}
             allowCross={false}
             pushable
+            marks={marks}
             value={timeInterval}
             onChange={this.onSliderChange}
             onAfterChange={this.onSliderChange}
