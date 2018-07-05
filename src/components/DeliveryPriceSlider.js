@@ -30,8 +30,6 @@ class DeliveryPriceSlider extends React.Component {
       price = 45;
     }
 
-    console.log(startTime, endTime, price);
-
     this.setState({ price });
   };
 
@@ -53,7 +51,7 @@ class DeliveryPriceSlider extends React.Component {
     return (
       <div className='delivery-price'>
         <div className='price-field'>
-          <span className='price-field__label'>Delivery price:</span>
+          <span className='price-field__label'>Delivery price: </span>
           <span className='price-field__value'>${price}</span>
         </div>
 
