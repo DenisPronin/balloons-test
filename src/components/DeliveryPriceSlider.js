@@ -40,18 +40,7 @@ class DeliveryPriceSlider extends React.Component {
   calculatePrice = (time = null) => {
     time = time || this.props.time;
 
-    const startTime = time.min;
-    const endTime = time.max;
-    let price = 15;
-
-    if (endTime - startTime === 3) {
-      price = 30;
-    }
-    else if (endTime - startTime === 2) {
-      price = 45;
-    }
-
-    this.props.handleChangePrice(price);
+    this.props.handleChangePrice(time);
   };
 
   tipFormatter = (time) => {

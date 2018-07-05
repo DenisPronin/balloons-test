@@ -4,12 +4,25 @@ import DeliveryPriceSlider from "./components/DeliveryPriceSlider";
 
 class App extends React.Component {
 
-  state = {
-    address: '',
-    placeId: '',
-    time: {min: -3, max: 5},
-    price: 15,
-    formStep: 1
+  _basePrice = 15;
+
+  constructor (props) {
+    super(props);
+    this.state = {
+      address: '',
+      placeId: '',
+      time: {min: -3, max: 5},
+      price: this._basePrice,
+      formStep: 1
+    };
+  }
+
+  calcBasePrice = () => {
+    let basePrice = this._basePrice;
+    if (this.state.placeId === 'ChIJtf0nyiKwEmsRUOBFCe4yimU') {
+      basePrice = 10;
+    }
+    return basePrice;
   };
 
   handleChangeAddress = (address, placeId = '') => {
@@ -20,7 +33,18 @@ class App extends React.Component {
     this.setState({time});
   };
 
-  handleChangePrice = (price) => {
+  handleChangePrice = (time) => {
+    const startTime = time.min;
+    const endTime = time.max;
+    let price = this.calcBasePrice();
+
+    if (endTime - startTime === 3) {
+      price *= 2;
+    }
+    else if (endTime - startTime === 2) {
+      price *= 3;
+    }
+
     this.setState({price});
   };
 
