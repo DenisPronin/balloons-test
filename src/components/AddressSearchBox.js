@@ -62,7 +62,7 @@ class AddressSearchBox extends React.Component {
           value={address}
           onSelect={this.handleSelect}
           onError={this.handleError}
-          shouldFetchSuggestions={address.length > 2}
+          shouldFetchSuggestions
         >
           {({ getInputProps, suggestions, getSuggestionItemProps }) => {
             return (
