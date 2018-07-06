@@ -119,3 +119,8 @@ body, #root, .page-wrapper {
 .time-slider-container {
   margin: 40px 7px;
 }
+
+.modal {
+  position: relative;
+  display: block;
+}

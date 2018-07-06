@@ -1,4 +1,5 @@
 import React from 'react';
+import Popup from "reactjs-popup";
 import AddressSearchBox from "./components/AddressSearchBox";
 import DeliveryPriceSlider from "./components/DeliveryPriceSlider";
 
@@ -16,7 +17,8 @@ class App extends React.Component {
       placeId: '',
       time: {min: -3, max: 5},
       price: this._basePrice,
-      formStep: 1
+      formStep: 1,
+      showResult: false
     };
   }
 
@@ -26,6 +28,18 @@ class App extends React.Component {
       basePrice = 10;
     }
     return basePrice;
+  };
+
+  tipFormatter = (time) => {
+    if (time < 0) {
+      return `${time + 12}am`;
+    }
+    else if (time === 0) {
+      return `${time + 12}pm`;
+    }
+    else {
+      return `${time}pm`;
+    }
   };
 
   handleChangeAddress = (address, placeId = '') => {
@@ -69,6 +83,14 @@ class App extends React.Component {
     this.setState({formStep: this.state.formStep + 1});
   };
 
+  submit = () => {
+    this.setState({showResult: true});
+  };
+
+  closeModal = () => {
+    this.setState({ showResult: false });
+  };
+
   render() {
     return (
       <div className="app">
@@ -92,14 +114,37 @@ class App extends React.Component {
             <DeliveryPriceSlider
               time={this.state.time}
               price={this.state.price}
+              tipFormatter={this.tipFormatter}
               handleChangeTime={this.handleChangeTime}
               handleChangePrice={this.handleChangePrice}
             />
 
             <button onClick={this.prevStep}>Change Address</button>
-            <button>Done</button>
+            <button onClick={this.submit}>Done</button>
           </div>
         )}
+
+        <Popup
+          open={this.state.showResult}
+          closeOnDocumentClick
+          onClose={this.closeModal}
+        >
+          <div className="modal">
+            <a className="close" onClick={this.closeModal}>
+              &times;
+            </a>
+            <div>
+              Your order will be delivered at: {this.state.address}
+            </div>
+            <div>
+              From: {this.tipFormatter(this.state.time.min)} - {this.tipFormatter(this.state.time.max)}
+            </div>
+            <div>
+              Delivery price is: ${this.state.price}
+            </div>
+          </div>
+        </Popup>
+
       </div>
     );
   }

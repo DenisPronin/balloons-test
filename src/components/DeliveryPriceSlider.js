@@ -8,6 +8,7 @@ class DeliveryPriceSlider extends React.Component {
   static propTypes = {
     time: PropTypes.object.isRequired,
     price: PropTypes.number.isRequired,
+    tipFormatter: PropTypes.func.isRequired,
     handleChangeTime: PropTypes.func.isRequired,
     handleChangePrice: PropTypes.func.isRequired
   };
@@ -46,20 +47,8 @@ class DeliveryPriceSlider extends React.Component {
     this.props.handleChangePrice(time);
   };
 
-  tipFormatter = (time) => {
-    if (time < 0) {
-      return `${time + 12}am`;
-    }
-    else if (time === 0) {
-      return `${time + 12}pm`;
-    }
-    else {
-      return `${time}pm`;
-    }
-  };
-
   render() {
-    const { time, price } = this.props;
+    const { time, price, tipFormatter } = this.props;
     const { min, max } = this.state;
 
     return (
@@ -73,7 +62,7 @@ class DeliveryPriceSlider extends React.Component {
           <InputRange
             minValue={min}
             maxValue={max}
-            formatLabel={this.tipFormatter}
+            formatLabel={tipFormatter}
             value={time}
             onChange={this.onChange}
             draggableTrack
