@@ -67,7 +67,6 @@ class AddressSearchBox extends React.Component {
           {({ getInputProps, suggestions, getSuggestionItemProps }) => {
             return (
               <div className='search-bar'>
-                <label>Enter your address: </label>
                 <div className="search-bar-container">
                   <div className="search-input-container">
                     <input
