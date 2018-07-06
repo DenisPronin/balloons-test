@@ -30,10 +30,11 @@ class App extends React.Component {
 
   handleChangeAddress = (address, placeId = '') => {
     if (this.notDeliveryPlaces.includes(placeId)) {
+      this.setState({address});
       this.handleAddressError('We do not deliver to this area');
     }
     else {
-      this.setState({address, placeId});
+      this.setState({address, placeId, addressError: ''});
     }
   };
 
