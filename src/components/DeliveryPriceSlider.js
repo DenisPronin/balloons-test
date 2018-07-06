@@ -23,6 +23,9 @@ class DeliveryPriceSlider extends React.Component {
 
   onChange = (time) => {
     let {min, max} = time;
+    const minIntervalLength = 2;
+    if (max - min < minIntervalLength) return false;
+
     const range = max - min;
     if (min < this.state.min) {
       min = this.state.min;
