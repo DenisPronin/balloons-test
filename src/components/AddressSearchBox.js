@@ -56,7 +56,7 @@ class AddressSearchBox extends React.Component {
     const { address, errorMessage } = this.props;
 
     return (
-      <div>
+      <div className="search-wrapper">
         <PlacesAutocomplete
           onChange={this.handleChange}
           value={address}
@@ -112,7 +112,6 @@ class AddressSearchBox extends React.Component {
             );
           }}
         </PlacesAutocomplete>
-
         {errorMessage.length > 0 && (
           <div className="error-message">{errorMessage}</div>
         )}

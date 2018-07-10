@@ -94,33 +94,57 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.formStep === 1 && (
-          <AddressSearchBox
-            address={this.state.address}
-            errorMessage={this.state.addressError}
-            placeId={this.state.placeId}
-            onChange={this.handleChangeAddress}
-            handleError={this.handleAddressError}
-          />
-        )}
+        <div className="search-box">
+          {this.state.formStep === 1 && (
+            <AddressSearchBox
+              address={this.state.address}
+              errorMessage={this.state.addressError}
+              placeId={this.state.placeId}
+              onChange={this.handleChangeAddress}
+              handleError={this.handleAddressError}
+            />
+          )}
 
-        {this.state.placeId && this.state.formStep === 1 && (
-          <button onClick={this.nextStep}>Next</button>
-        )}
+          {this.state.placeId && this.state.formStep === 1 && (
+            <div className="next-btn-wrapper">
+              <button onClick={this.nextStep}>Next</button>
+            </div>
+          )}
+        </div>
 
         {this.state.formStep === 2 && (
-          <div>
-            <div>{this.state.address}</div>
-            <DeliveryPriceSlider
-              time={this.state.time}
-              price={this.state.price}
-              tipFormatter={this.tipFormatter}
-              handleChangeTime={this.handleChangeTime}
-              handleChangePrice={this.handleChangePrice}
-            />
+          <div className="address-box">
+            <div className="address-info">
+              <div className="delivery-address address-col">
+                <div className="address-inner">
+                  <div className="col-body">
+                    {this.state.address}
+                  </div>
+                </div>
+                <div className="delivery-buttons">
+                  <button onClick={this.prevStep}>Change Address</button>
+                </div>
+              </div>
 
-            <button onClick={this.prevStep}>Change Address</button>
-            <button onClick={this.submit}>Done</button>
+              <div className="address-col">
+                <div className="address-inner">
+                  <div className="col-body">
+                    <DeliveryPriceSlider
+                      time={this.state.time}
+                      price={this.state.price}
+                      tipFormatter={this.tipFormatter}
+                      handleChangeTime={this.handleChangeTime}
+                      handleChangePrice={this.handleChangePrice}
+                    />
+                  </div>
+                </div>
+                <div className="delivery-buttons">
+                  <button onClick={this.submit}>Done</button>
+                </div>
+
+              </div>
+
+            </div>
           </div>
         )}
 
@@ -128,23 +152,29 @@ class App extends React.Component {
           open={this.state.showResult}
           closeOnDocumentClick
           onClose={this.closeModal}
+          className="custom-popup"
         >
           <div className="modal">
-            <a className="close" onClick={this.closeModal}>
-              &times;
-            </a>
-            <div>
-              Your order will be delivered at: {this.state.address}
+            <div className="modal-header">
+              <a className="close" onClick={this.closeModal}>
+                &times;
+              </a>
             </div>
-            <div>
-              From: {this.tipFormatter(this.state.time.min)} - {this.tipFormatter(this.state.time.max)}
-            </div>
-            <div>
-              Delivery price is: ${this.state.price}
+            <div className="modal-body">
+              <div className="delivery-body">
+                <div className="delivery-row">
+                  Your order will be delivered at: {this.state.address}
+                </div>
+                <div className="delivery-row">
+                  From: {this.tipFormatter(this.state.time.min)} - {this.tipFormatter(this.state.time.max)}
+                </div>
+                <div className="delivery-row">
+                  Delivery price is: ${this.state.price}
+                </div>
+              </div>
             </div>
           </div>
         </Popup>
-
       </div>
     );
   }
